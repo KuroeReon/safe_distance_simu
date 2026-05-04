@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import matplotlib.pyplot as plt
 from config import (
     PETBOTTLE_VOLUME, INITIAL_BOTTLE_PRESSURE,
     NOZZLE_AREA, WATER_DENSITY, ATMOS_PRESSURE, SPECIFIC_HEAT_RATIO,
@@ -113,8 +112,7 @@ def run_simulation_air(config, initial_state, t, dt, max_t, states, thrusts, exi
 def thrust_mass_track_main(water_volume, petbottle_mass):
     initial_air_volume = PETBOTTLE_VOLUME - water_volume
     initial_water_mass = water_volume * WATER_DENSITY
-    initial_air_mass = (AIR_MOLAR_MASS * (INITIAL_BOTTLE_PRESSURE - ATMOS_PRESSURE) * initial_air_volume
-                        / GAS_CONSTANT / ABSOLUTE_TEMPERATURE)
+    initial_air_mass = (AIR_MOLAR_MASS * INITIAL_BOTTLE_PRESSURE * initial_air_volume / GAS_CONSTANT / ABSOLUTE_TEMPERATURE)
 
     config = Config(
         water_density=WATER_DENSITY,

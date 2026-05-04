@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from thrust_mass_track import thrust_mass_track_main
-import matplotlib.pyplot as plt
 import numpy as np
 from config import GRAVITY, CROSS_SECTIONAL_AREA, DRAG_COEFFICIENT, AIR_DENSITY, DT, MAX_T
 
@@ -37,8 +36,7 @@ def get_value_at_time(t, dt, data):
 def derivative(state, config, mass_list, thrust_list, t, dt):
     mass = get_value_at_time(t, dt, mass_list)
     thrust = get_value_at_time(t, dt, thrust_list)
-    force = (thrust + config.gravity * mass - config.air_density * config.drag_coefficient * config.cross_sectional_area * state.velocity
-             * abs(state.velocity) * 0.5)
+    force = thrust
     d_velocity = force / mass
     return State(d_velocity)
 
