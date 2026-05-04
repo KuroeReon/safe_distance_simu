@@ -31,7 +31,10 @@ class State:
                 f"air_volume={self.air_volume}, total_mass={self.total_mass})")
 
 def derivative_water(state, config):
-    exit_velocity = (2 * (state.bottle_pressure - config.atmos_pressure) / config.water_density) ** 0.5
+    pressure_diff = state.bottle_pressure - config.atmos_pressure
+    if pressure_diff <= 0:
+        return State(0, 0, 0, 0)
+    exit_velocity = (2 * pressure_diff / config.water_density) ** 0.5
     d_water_mass = -config.water_density * config.nozzle_area * exit_velocity
     d_bottle_pressure = -config.specific_heat_ratio * state.bottle_pressure * config.nozzle_area * exit_velocity / state.air_volume
     d_air_volume = config.nozzle_area * exit_velocity
@@ -82,10 +85,11 @@ def runge_kutta(derivative, state, config, dt):
 def run_simulation_water(config, initial_state, t, dt, max_t, states, thrusts, exit_velocities, mass):
     state = initial_state
     states.append(state)
-    while t < max_t and state.water_mass > 0:
+    while t < max_t and state.water_mass > 0 and state.bottle_pressure > config.atmos_pressure:
         t += dt
-        thrust = 2 * config.nozzle_area * (state.bottle_pressure - config.atmos_pressure)
-        exit_velocity = (2 * (state.bottle_pressure - config.atmos_pressure) / config.water_density) ** 0.5
+        pressure_diff = state.bottle_pressure - config.atmos_pressure
+        thrust = 2 * config.nozzle_area * pressure_diff
+        exit_velocity = (2 * pressure_diff / config.water_density) ** 0.5
         state = runge_kutta(derivative_water, state, config, dt)
         mass.append(state.total_mass)
         thrusts.append(thrust)

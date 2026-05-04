@@ -31,7 +31,7 @@ class Config:
     air_density: float
 
 def get_value_at_time(t, dt, data):
-    times = np.arange(0, len(data) * dt, dt)
+    times = np.arange(len(data)) * dt
     return np.interp(t, times, data)
 
 def derivative(state, config, mass_list, thrust_list, t, dt):
@@ -58,6 +58,7 @@ def run_simulation(config, initial_state, t, dt, max_t, states, thrust, mass):
             return state.velocity
         states.append(state)
         t += dt
+    return states[-1].velocity
 
 def velocity_track(water_volume, petbottle_mass=None):
     total_mass, thrusts = thrust_mass_track_main(water_volume, petbottle_mass)
