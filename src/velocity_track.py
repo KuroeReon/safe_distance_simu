@@ -60,7 +60,7 @@ def run_simulation(config, initial_state, t, dt, max_t, states, thrust, mass):
         t += dt
     return states[-1].velocity
 
-def velocity_track(water_volume, petbottle_mass=None):
+def velocity_track(water_volume, petbottle_mass):
     total_mass, thrusts = thrust_mass_track_main(water_volume, petbottle_mass)
 
     config = Config(

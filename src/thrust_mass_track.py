@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import matplotlib.pyplot as plt
 from config import (
-    PETBOTTLE_MASS, PETBOTTLE_VOLUME, WATER_VOLUME, INITIAL_BOTTLE_PRESSURE,
+    PETBOTTLE_VOLUME, INITIAL_BOTTLE_PRESSURE,
     NOZZLE_AREA, WATER_DENSITY, ATMOS_PRESSURE, SPECIFIC_HEAT_RATIO,
     GAS_CONSTANT, ABSOLUTE_TEMPERATURE, AIR_MOLAR_MASS, DT, MAX_T,
 )
@@ -110,10 +110,7 @@ def run_simulation_air(config, initial_state, t, dt, max_t, states, thrusts, exi
         mass.append(state.total_mass)
     return states, thrusts
 
-def thrust_mass_track_main(water_volume, petbottle_mass=None):
-    if petbottle_mass is None:
-        petbottle_mass = PETBOTTLE_MASS
-
+def thrust_mass_track_main(water_volume, petbottle_mass):
     initial_air_volume = PETBOTTLE_VOLUME - water_volume
     initial_water_mass = water_volume * WATER_DENSITY
     initial_air_mass = (AIR_MOLAR_MASS * (INITIAL_BOTTLE_PRESSURE - ATMOS_PRESSURE) * initial_air_volume
