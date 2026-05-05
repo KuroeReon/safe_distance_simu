@@ -3,7 +3,7 @@ import math
 # ---- 内圧、水の量など ----
 PETBOTTLE_MASS = 0.470          # kg → 入力がもしなかったら
 PETBOTTLE_VOLUME = 0.002000     # m^3 
-INITIAL_BOTTLE_PRESSURE = 500000  # Pa
+INITIAL_BOTTLE_PRESSURE = 600000  # Pa
 NOZZLE_DIAMETER = 0.0089        # m
 
 # ---- 機体 ----
